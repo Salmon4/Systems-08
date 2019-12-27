@@ -30,36 +30,60 @@ int createSem(){
   return 0;
 }
 
-void removeSem(){
+int removeSem(){
   semd = semget(KEY, 1, 0);
-
+  if (semd < 0){
+    printf("%s\n", strerror(errno));
+    return 1;
+  }
+  printf("Trying to get in\n");
   semop(semd,&sb, 1);
-
   shmd = shmget(KEY, 1, 0);
+  if (shmd < 0){
+    printf("%s\n", strerror(errno));
+    return 1;
+  }
   fd = open("file.txt", O_RDONLY);
-
-  char buff[SIZE];
+  if (fd < 0){
+    printf("%s\n", strerror(errno));
+    return 1;
+  }
+  char buff[1000];
   buff[0] = '\0';
-  read(fd, buff, SIZE);
+  read(fd, buff, 1000);
   if (strlen(buff) != 0){
     *(strrchr(buff, '\n') + 1) = '\0';
   }
+  printf("Content: \n");
+  printf("%s\n", buff);
   close(fd);
   shmctl(shmd, IPC_RMID, 0);
-
-  semctl(semd, IPC_RMID, 0);
-
+  printf("Shared memory removed\n");
   remove("file.txt");
-  printf("dummy");
+  printf("File removed\n");
+  semctl(semd, IPC_RMID, 0);
+  printf("Semaphore removed\n");
+  //printf("dummy");
+  return 0;
 }
 
-void viewSem(){
+int viewSem(){
   fd = open("file.txt", O_RDONLY);
-  char buff[SIZE];
+  if (fd < 0){
+    printf("%s\n", strerror(errno));
+    return 1;
+  }
+  char buff[1000];
   buff[0] = '\0';
-  read(fd, buff, SIZE);
+  read(fd, buff, 1000);
+  if (strlen(buff) != 0){
+    *(strrchr(buff, '\n') + 1) = '\0';
+  }
+  printf("The story so far:\n");
+  printf("%s\n", buff);
   close(fd);
-  printf("dummy");
+  //printf("dummy");
+  return 0;
 }
 
 int main(int argc, char* argv[]){

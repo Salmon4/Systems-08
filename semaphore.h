@@ -10,7 +10,6 @@
 #include <unistd.h>
 
 #define KEY 7777
-#define SIZE 1000
 
 union semun{
   int val;
