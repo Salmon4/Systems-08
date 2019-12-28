@@ -87,6 +87,8 @@ int viewSem(){
 }
 
 int main(int argc, char* argv[]){
+  sb.sem_num = 0;
+  sb.sem_op = -1;
   if (argc > 1){
     if (strcmp(argv[1], "-c") == 0){
       createSem();
