@@ -5,6 +5,8 @@ struct sembuf sb;
 
 int writeSem(){
   printf("trying to get in\n");
+  sb.sem_num = 0;
+  sb.sem_op = -1;
   semd = semget(KEY, 1, 0);
   if(semd < 0){
     printf("%s\n", strerror(errno));
