@@ -27,7 +27,7 @@ int writeSem(){
   char next[1000];
   printf("Your addition: ");
   fgets(next, 1000, stdin);
-  printf("\n");
+  printf("%s\n",next);
   write(fd, next, strlen(next));
   close(fd);
   strcpy(last,next);
