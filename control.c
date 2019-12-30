@@ -5,7 +5,7 @@ union semun se;
 struct sembuf sb;
 
 int createSem(){
-  semd = semget(KEY, 1, IPC_CREAT | 0644);
+  semd = semget(SEMKEY, 1, IPC_CREAT | 0644);
   if (semd < 0){
     printf("%s\n", strerror(errno));
     return 1;
@@ -13,7 +13,7 @@ int createSem(){
   printf("semaphore created\n");
 
   semctl(semd, 0, SETVAL, se);
-  shmd = shmget(KEY, sizeof(char *),IPC_CREAT | 0644);
+  shmd = shmget(SHKEY, sizeof(char *),IPC_CREAT | 0644);
   if (shmd < 0){
     printf("%s\n", strerror(errno));
     return 1;
@@ -31,14 +31,14 @@ int createSem(){
 }
 
 int removeSem(){
-  semd = semget(KEY, 1, 0);
+  semd = semget(SEMKEY, 1, 0);
   if (semd < 0){
     printf("%s\n", strerror(errno));
     return 1;
   }
   printf("Trying to get in\n");
   semop(semd,&sb, 1);
-  shmd = shmget(KEY, 1, 0);
+  shmd = shmget(SHKEY, 1, 0);
   if (shmd < 0){
     printf("%s\n", strerror(errno));
     return 1;

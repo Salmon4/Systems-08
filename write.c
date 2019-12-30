@@ -7,14 +7,14 @@ int writeSem(){
   printf("trying to get in\n");
   sb.sem_num = 0;
   sb.sem_op = -1;
-  semd = semget(KEY, 1, 0);
+  semd = semget(SEMKEY, 1, 0);
   if(semd < 0){
     printf("%s\n", strerror(errno));
     return 1;
   }
   semop(semd, &sb, 1);
 
-  shmd = shmget(KEY, sizeof(char *), 0);
+  shmd = shmget(SHKEY, sizeof(char *), 0);
   if(shmd < 0){
     printf("%s\n", strerror(errno));
     return 1;

@@ -9,7 +9,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#define KEY 7777
+#define SEMKEY 24601
+#define SHKEY 24602
 
 union semun{
   int val;
