@@ -38,25 +38,13 @@ int removeSem(){
   }
   printf("Trying to get in\n");
   semop(semd,&sb, 1);
-  shmd = shmget(SHKEY, 1, 0);
+  shmd = shmget(SHKEY, sizeof(char *), 0);
   if (shmd < 0){
     printf("%s\n", strerror(errno));
     return -1;
   }
-  fd = open("file.txt", O_RDONLY);
-  if (fd < 0){
-    printf("%s\n", strerror(errno));
-    return -1;
-  }
-  char buff[1000];
-  buff[0] = '\0';
-  read(fd, buff, 1000);
-  if (strlen(buff) != 0){
-    *(strrchr(buff, '\n') + 1) = '\0';
-  }
-  printf("Content: \n");
-  printf("%s\n", buff);
-  close(fd);
+  viewSem();
+
   shmctl(shmd, IPC_RMID, 0);
   printf("Shared memory removed\n");
   remove("file.txt");
