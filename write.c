@@ -10,14 +10,14 @@ int writeSem(){
   semd = semget(SEMKEY, 1, 0);
   if(semd < 0){
     printf("%s\n", strerror(errno));
-    return 1;
+    return -1;
   }
   semop(semd, &sb, 1);
 
   shmd = shmget(SHKEY, sizeof(char *), 0);
   if(shmd < 0){
     printf("%s\n", strerror(errno));
-    return 1;
+    return -1;
   }
   fd = open("file.txt", O_WRONLY | O_APPEND);
 

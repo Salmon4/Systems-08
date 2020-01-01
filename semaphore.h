@@ -18,3 +18,8 @@ union semun{
   unsigned short *array;
   struct seminfo *__buf;
 };
+
+int writeSem();
+int createSem();
+int removeSem();
+int viewSem();

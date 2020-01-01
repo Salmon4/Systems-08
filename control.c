@@ -8,7 +8,7 @@ int createSem(){
   semd = semget(SEMKEY, 1, IPC_CREAT | 0644);
   if (semd < 0){
     printf("%s\n", strerror(errno));
-    return 1;
+    return -1;
   }
   printf("semaphore created\n");
 
@@ -16,14 +16,14 @@ int createSem(){
   shmd = shmget(SHKEY, sizeof(char *),IPC_CREAT | 0644);
   if (shmd < 0){
     printf("%s\n", strerror(errno));
-    return 1;
+    return -1;
   }
   printf("shared memory created\n");
 
   fd = open("file.txt", O_CREAT | O_RDWR, 0644);
   if (fd < 0){
     printf("%s\n", strerror(errno));
-    return 1;
+    return -1;
   }
   printf("file created\n");
   close(fd);
@@ -41,12 +41,12 @@ int removeSem(){
   shmd = shmget(SHKEY, 1, 0);
   if (shmd < 0){
     printf("%s\n", strerror(errno));
-    return 1;
+    return -1;
   }
   fd = open("file.txt", O_RDONLY);
   if (fd < 0){
     printf("%s\n", strerror(errno));
-    return 1;
+    return -1;
   }
   char buff[1000];
   buff[0] = '\0';
@@ -71,7 +71,7 @@ int viewSem(){
   fd = open("file.txt", O_RDONLY);
   if (fd < 0){
     printf("%s\n", strerror(errno));
-    return 1;
+    return -1;
   }
   char buff[1000];
   buff[0] = '\0';
@@ -89,6 +89,7 @@ int viewSem(){
 int main(int argc, char* argv[]){
   sb.sem_num = 0;
   sb.sem_op = -1;
+  se.val = 1;
   if (argc > 1){
     if (strcmp(argv[1], "-c") == 0){
       createSem();
