@@ -5,8 +5,8 @@ struct sembuf sb;
 
 int writeSem(){
   printf("trying to get in\n");
-  sb.sem_num = 0;
-  sb.sem_op = -1;
+  //sb.sem_num = 0;
+  //sb.sem_op = -1;
   printf("breaks here");
   semd = semget(SEMKEY, 1, 0);
   printf("breaks here");
