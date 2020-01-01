@@ -5,27 +5,18 @@ struct sembuf sb;
 
 int writeSem(){
   printf("trying to get in\n");
-  //sb.sem_num = 0;
-  //sb.sem_op = -1;
-  printf("breaks here");
   semd = semget(SEMKEY, 1, 0);
-  printf("breaks here");
   if(semd < 0){
     printf("%s\n", strerror(errno));
     return -1;
   }
-  printf("breaks here");
   semop(semd, &sb, 1);
-  printf("breaks here");
   shmd = shmget(SHKEY, sizeof(char *), 0);
-  printf("breaks here");
   if(shmd < 0){
     printf("%s\n", strerror(errno));
     return -1;
   }
-  printf("breaks here");
   fd = open("file.txt", O_WRONLY | O_APPEND);
-  printf("breaks here");
   char *last = shmat(shmd, 0, 0);
   printf("Last addition: %s\n", last);
   char next[1000];
