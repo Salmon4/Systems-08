@@ -12,11 +12,10 @@
 #define SEMKEY 24601
 #define SHKEY 24602
 
-union semun{
-  int val;
-  struct semid_ds *buf;
-  unsigned short *array;
-  struct seminfo *__buf;
+union semun {
+    int val;
+    struct semid_ds *buf;
+    unsigned short  *array;
 };
 
 int writeSem();
